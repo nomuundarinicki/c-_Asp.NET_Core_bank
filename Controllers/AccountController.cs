@@ -63,7 +63,7 @@ namespace bank.Controllers
               {
                 // new transaction
                 Transaction NewTransaction = new Transaction {
-                  Amount = (decimal)Amount,
+                  Amount = (double)Amount,
                   CreatedAt = DateTime.UtcNow,
                   UpdatedAt = DateTime.UtcNow,
                   UserId = Transactor.UserId

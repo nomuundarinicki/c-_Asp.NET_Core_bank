@@ -52,36 +52,36 @@ namespace bank.Controllers
 
         [HttpPost]
         [Route("Register")]
-        public IActionResult Register(RegisterViewModel model)
+        public IActionResult Register(RegisterViewModel NewUser)
         {
             if (ModelState.IsValid)
             {
-                User ExistingUser = _context.Users.SingleOrDefault(user => user.Email == model.Email);
+                User ExistingUser = _context.Users.SingleOrDefault(user => user.Email == NewUser.Email);
                 if (ExistingUser != null)
                 {
                     ViewBag.Message = "User with this email already exists!";
-                    return View("Index", model);
+                    return View("Index");
                 }
-                PasswordHasher<User> Hasher = new PasswordHasher<User>();
-                User NewUser = new User
+                PasswordHasher<RegisterViewModel> Hasher = new PasswordHasher<RegisterViewModel>();
+                NewUser.Password = Hasher.HashPassword(NewUser, NewUser.Password);
+                User User = new User
                 {
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    Email = model.Email,
-                    Password = model.Password,
+                    FirstName = NewUser.FirstName,
+                    LastName = NewUser.LastName,
+                    Email = NewUser.Email,
+                    Password = NewUser.Password,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 };
-                NewUser.Password = Hasher.HashPassword(NewUser, NewUser.Password);
-                _context.Add(NewUser);
+                _context.Add(User);
                 _context.SaveChanges();
-                NewUser = _context.Users.SingleOrDefault(user => user.Email == NewUser.Email);
-                HttpContext.Session.SetInt32("UserId", NewUser.UserId);
+               User LoggedUser = _context.Users.SingleOrDefault(user => user.Email == NewUser.Email);
+                HttpContext.Session.SetInt32("UserId", User.UserId);
                 return RedirectToAction("Index", "Account", new { accountNum = HttpContext.Session.GetInt32("UserId")});
             }
             else
             {
-                return View("Index", model);
+                return View("Index");
             }
         }
 
