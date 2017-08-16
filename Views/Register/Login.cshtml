@@ -1,0 +1,23 @@
+@{
+  ViewData["Title"] = "Login";
+}
+
+<form action="Login" method="post">
+  <fieldset>
+    <legend>Login</legend>
+    <p>
+      <label for="LogEmail">Email</label>
+      <input type="text" name="LogEmail" id="LogEmail"/>
+    </p>
+    <p>
+      <label for="LogPassword">Password</label>
+      <input type="password" name="LogPassword" id="LogPassword"/>
+    </p>
+    <button>Login</button>
+  </fieldset>
+</form>
+
+@if (ViewBag.message != null)
+{
+  <p>@ViewBag.message</p>
+}

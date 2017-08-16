@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "Register";
+}
+
+@model bank.Models.RegisterViewModel
+
+
+<form asp-controller="Register" asp-action="Register" method="post">
+    <fieldset>
+        <legend>Register</legend>
+        <p>
+            <label asp-for="FirstName"></label>
+            <input asp-for="FirstName">
+            <span asp-validation-for="FirstName"></span>
+        </p>
+        <p>
+            <label asp-for="LastName"></label>
+            <input asp-for="LastName">
+            <span asp-validation-for="LastName"></span>
+        </p>
+        <p>
+            <label asp-for="Email"></label>
+            <input asp-for="Email">
+            <span asp-validation-for="Email"></span>
+        </p>
+        <p>
+            <label asp-for="Password"></label>
+            <input asp-for="Password">
+            <span asp-validation-for="Password"></span>
+        </p>
+        <p>
+            <label asp-for="Confirm"></label>
+            <input asp-for="Confirm">
+            <span asp-validation-for="Confirm"></span>
+        </p>
+        <p><a asp-controller="Register" asp-action="LoginPage">Already Registered?</a></p>
+        <button>Register</button>
+    </fieldset>
+</form>
+
+@if (ViewBag.message != null)
+{
+    <p>@ViewBag.message</p>
+}

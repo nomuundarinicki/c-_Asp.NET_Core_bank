@@ -1,0 +1,35 @@
+@{
+    ViewData["Title"] = "Account Transactions";
+}
+
+@model bank.Models.Transaction
+
+<h1>Welcome, @ViewBag.Accountholder</h1>
+<h4><a asp-controller="Register" asp-action="Logoff">Log Out</a></h4>
+<h2>Current balance: <span>@string.Format("{0:C}", ViewBag.Balance)</span>
+<form asp-controller="Account" asp-action="Transact" method="post">
+  <fieldset>
+    <legend>Deposit/Withdraw</legend>
+      <input type="number" min="@ViewBag.Minimum" step="0.01" value="0.00" asp-for="Amount"/>
+      <span asp-validation-for="Amount"></span>
+      <button>Submit</button>
+  </fieldset>
+</form>
+
+<table>
+  <thead>
+    <tr>
+      <td>Amount</td>
+      <td>Date</td>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var trans in @ViewBag.MyTransactions)
+    {
+      <tr>
+        <td>@string.Format("{0:C}", trans.Amount)</td>
+        <td>@trans.CreatedAt.ToString("MMM d, yyyy")</td>
+      </tr>
+    }
+  </tbody>
+</table>
